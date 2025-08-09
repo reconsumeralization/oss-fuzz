@@ -486,8 +486,8 @@ $CC $CFLAGS $LIB_FUZZING_ENGINE $SRC/fuzzer_example.c -o $OUT/fuzzer_example
 # LIB_FUZZING_ENGINE: linker flag for fuzzing harnesses
 
 # Copy all fuzzer executables to $OUT/
-$CC $CFLAGS $LIB_FUZZING_ENGINE \
-  $SRC/${baseName}/.clusterfuzzlite/fuzzer_example.c \
+$CC $CFLAGS $LIB_FUZZING_ENGINE \\
+  $SRC/${baseName}/.clusterfuzzlite/fuzzer_example.c \\
   -o $OUT/fuzzer_example
 `;
 
