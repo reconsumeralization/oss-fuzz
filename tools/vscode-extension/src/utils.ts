@@ -66,7 +66,7 @@ export async function getOSSFuzzCloudURL(projectName: string) {
   yesterday.setDate(yesterday.getDate() - 1);
 
   const day = yesterday.getDate();
-  const month = yesterday.getMonth();
+  const month = yesterday.getMonth() + 1; // getMonth is 0-based
   const year = yesterday.getFullYear();
 
   let urlString =
@@ -75,14 +75,10 @@ export async function getOSSFuzzCloudURL(projectName: string) {
     '/reports/' +
     year.toString();
 
-  if (month < 10) {
-    urlString += '0';
-  }
-  urlString += month.toString();
-  if (day < 10) {
-    urlString += '0';
-  }
-  urlString += day.toString();
+  const monthStr = String(month).padStart(2, '0');
+  const dayStr = String(day).padStart(2, '0');
+  urlString += monthStr;
+  urlString += dayStr;
 
   return urlString;
 }

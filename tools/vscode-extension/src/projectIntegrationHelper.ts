@@ -147,7 +147,7 @@ jobs:
       with:
         sanitizer: \${{ matrix.sanitizer }}
         language: ${tmp_target}
-        bad-build-check: false
+        bad-build-check: true
     - name: Run Fuzzers (\${{ matrix.sanitizer }})
       id: run
       uses: google/clusterfuzzlite/actions/run_fuzzers@v1
@@ -353,11 +353,14 @@ ENV MVN $SRC/maven/apache-maven-3.6.3/bin/mvn
 RUN git clone --depth 1 ${projectGithubRepository} ${projectNameFromRepo}
 WORKDIR ${projectNameFromRepo}
 COPY build.sh *.java $SRC/`;
-  wsedit.insert(
-    ossfuzzDockerFilepath,
-    new vscode.Position(0, 0),
-    dockerfileTemplate
-  );
+  if (fs.existsSync(ossfuzzDockerFilepath.path) === false) {
+    wsedit.createFile(ossfuzzDockerFilepath, {ignoreIfExists: true});
+    wsedit.insert(
+      ossfuzzDockerFilepath,
+      new vscode.Position(0, 0),
+      dockerfileTemplate
+    );
+  }
 
   // build.sh
   const ossfuzzBuildFilepath = vscode.Uri.file(
@@ -421,12 +424,12 @@ async function setupCProjectInitialFiles(
   // Dockerfile
   if (fs.existsSync(ossfuzzDockerFilepath.path) === false) {
     const dockerfileTemplate =
-      getBaseDockerFile('cpp') +
+      getBaseDockerFile('c') +
       `
 RUN apt-get update && apt-get install -y make autoconf automake libtool
 RUN git clone --depth 1 ${projectGithubRepository} ${projectNameFromRepo}
 WORKDIR ${projectNameFromRepo}
-COPY build.sh *.cpp $SRC/`;
+COPY build.sh *.c $SRC/`;
 
     const dockerfileTemplateClusterfuzzLite = `FROM gcr.io/oss-fuzz-base/base-builder
 RUN apt-get update && apt-get install -y make autoconf automake libtool
@@ -470,7 +473,7 @@ WORKDIR $SRC/${baseName}`;
 # LIB_FUZZING_ENGINE: linker flag for fuzzing harnesses
 
 # Copy all fuzzer executables to $OUT/
-$CXX $CFLAGS $LIB_FUZZING_ENGINE $SRC/fuzzer_example.c -o $OUT/fuzzer_example
+$CC $CFLAGS $LIB_FUZZING_ENGINE $SRC/fuzzer_example.c -o $OUT/fuzzer_example
 `;
 
     const buildTemplateClusterfuzzLite = `#!/bin/bash -eu
@@ -483,8 +486,8 @@ $CXX $CFLAGS $LIB_FUZZING_ENGINE $SRC/fuzzer_example.c -o $OUT/fuzzer_example
 # LIB_FUZZING_ENGINE: linker flag for fuzzing harnesses
 
 # Copy all fuzzer executables to $OUT/
-$CC $CFLAGS $LIB_FUZZING_ENGINE \\
-  $SRC/${baseName}/.clusterfuzzlite/fuzzer_example.c \\
+$CC $CFLAGS $LIB_FUZZING_ENGINE \
+  $SRC/${baseName}/.clusterfuzzlite/fuzzer_example.c \
   -o $OUT/fuzzer_example
 `;
 
@@ -685,6 +688,7 @@ async function setupPythonProjectInitialFiles(
       ? dockerfileTemplate
       : dockerfileTemplateClusterfuzzLite;
 
+    wsedit.createFile(ossfuzzDockerFilepath, {ignoreIfExists: true});
     wsedit.insert(
       ossfuzzDockerFilepath,
       new vscode.Position(0, 0),
@@ -710,7 +714,7 @@ python3 -m pip install .
 # Build fuzzers (files prefixed with fuzz_) to $OUT
 for fuzzer in $(find $SRC -name 'fuzz_*.py'); do
   compile_python_fuzzer $fuzzer
-done`;
+ done`;
 
     const buildTemplateClusterfuzzLite = `#!/bin/bash -eu
 python3 -m pip install .
@@ -718,7 +722,7 @@ python3 -m pip install .
 # Build fuzzers (files prefixed with fuzz_) to $OUT
 for fuzzer in $(find $SRC -name 'fuzz_*.py'); do
   compile_python_fuzzer $fuzzer
-done`;
+ done`;
 
     const buildContent = isOssFuzz
       ? buildTemplate
