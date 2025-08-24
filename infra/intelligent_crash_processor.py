@@ -53,7 +53,8 @@ class OSSFuzzIntelligentProcessor:
             'cache_dir': os.environ.get('EMBEDDING_CACHE_DIR', '/tmp/oss_fuzz_embeddings'),
             'daily_budget': float(os.environ.get('EMBEDDING_BUDGET_DAILY', '2.0')),
             'enable_embeddings': self.enabled,
-            'similarity_threshold': 0.8
+            'similarity_threshold': 0.8,
+            'project_name': self.project_name,
         }
     
     def process_crash_file(self, crash_file_path: str) -> Dict:

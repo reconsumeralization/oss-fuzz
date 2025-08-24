@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package embeddingintelligence;
+
+message EmbeddingEvent {
+  string event_id = 1;
+  int64 timestamp_ms = 2;
+  string project_name = 3;
+  string crash_signature = 4;
+  string crash_type = 5;
+  bool embedding_used = 6;
+  bool cache_hit = 7;
+  double estimated_cost = 8;
+  double processing_time_seconds = 9;
+  string model = 10;
+  string source = 11;
+  string version = 12;
+  string decision_reason = 13;
+  double priority_score = 14;
+  double exploit_risk_score = 15;
+  bool is_novel = 16;
+  bool is_duplicate = 17;
+}

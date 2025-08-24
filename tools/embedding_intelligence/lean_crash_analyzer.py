@@ -24,6 +24,17 @@ except ImportError:
     print("Warning: crash_analysis.py not found, using standalone mode")
     CRASH_ANALYSIS_AVAILABLE = False
 
+# GTM emitter (optional)
+try:
+    from .gtm_emitter import emit_embedding_event  # type: ignore
+    GTM_EMITTER_AVAILABLE = True
+except Exception:
+    try:
+        from gtm_emitter import emit_embedding_event  # type: ignore
+        GTM_EMITTER_AVAILABLE = True
+    except Exception:
+        GTM_EMITTER_AVAILABLE = False
+
 class LeanEmbeddingIntelligence:
     """Lean embedding intelligence that extends existing crash analysis."""
     
@@ -97,6 +108,19 @@ class LeanEmbeddingIntelligence:
                 'estimated_cost': enhanced_analysis.get('estimated_cost', 0.0),
                 'cache_hit': enhanced_analysis.get('cache_hit', False)
             }
+            
+            # Emit GTM protobuf telemetry (best-effort/no-op if unavailable)
+            if GTM_EMITTER_AVAILABLE:
+                try:
+                    emit_embedding_event(
+                        project_name=self.config.get('project_name'),
+                        crash_report=crash_report,
+                        analysis=enhanced_analysis,
+                        config=self.config,
+                        model_name='models/embedding-001' if enhanced_analysis.get('embedding_analysis_used') else ''
+                    )
+                except Exception:
+                    pass
             
             return enhanced_analysis
             
