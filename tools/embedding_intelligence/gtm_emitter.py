@@ -16,6 +16,13 @@ except Exception:
     except Exception:
         _PROTO_AVAILABLE = False
 
+# Sanitizer (best-effort)
+try:
+    from .privacy_sanitizer import sanitize_event_dict
+except Exception:
+    def sanitize_event_dict(d):
+        return d
+
 
 def _build_event_dict(project_name: Optional[str], crash_report: Dict, analysis: Dict, model_name: str) -> Dict:
     stats = analysis.get("intelligence_stats", {})
@@ -67,8 +74,8 @@ def emit_embedding_event(
     out_dir = cache_dir / "gtm_events"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Build canonical event dict first
-    event_dict = _build_event_dict(project_name, crash_report, analysis, model_name)
+    # Build canonical event dict first and sanitize
+    event_dict = sanitize_event_dict(_build_event_dict(project_name, crash_report, analysis, model_name))
 
     if _PROTO_AVAILABLE:
         try:
