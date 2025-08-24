@@ -55,7 +55,7 @@ class LeanEmbeddingIntelligence:
             'processing_time': 0.0
         }
         
-        # Caching system
+        # Caching system (also used for local embeddings)
         self.cache_dir = Path(self.config.get('cache_dir', '/tmp/oss_fuzz_embeddings'))
         self.cache_dir.mkdir(exist_ok=True)
         self.embedding_cache = self._load_embedding_cache()
@@ -69,6 +69,11 @@ class LeanEmbeddingIntelligence:
         # High-impact features only
         self.vulnerability_patterns = self._load_vulnerability_patterns()
         self.crash_clusters = defaultdict(list)
+        
+        # Local embedding settings (free, offline)
+        self.local_embedding_dim = int(self.config.get('local_embedding_dim', 2048))
+        self.similarity_threshold = float(self.config.get('similarity_threshold', 0.8))
+        self.max_cache_size = int(self.config.get('max_cache_size', 10000))
     
     def _get_default_config(self) -> Dict:
         """Get optimized default configuration."""
@@ -77,7 +82,9 @@ class LeanEmbeddingIntelligence:
             'similarity_threshold': 0.8,
             'high_value_threshold': 0.7,
             'max_cache_size': 10000,
-            'enable_embeddings': os.environ.get('ENABLE_EMBEDDING_INTELLIGENCE', '').lower() == 'true'
+            'enable_embeddings': os.environ.get('ENABLE_EMBEDDING_INTELLIGENCE', '').lower() == 'true',
+            'enable_cloud_embeddings': os.environ.get('ENABLE_CLOUD_EMBEDDINGS', '').lower() == 'true',
+            'local_embedding_dim': 2048,
         }
     
     def analyze_crash_intelligently(self, crash_report: Dict) -> Dict:
@@ -109,15 +116,20 @@ class LeanEmbeddingIntelligence:
                 'cache_hit': enhanced_analysis.get('cache_hit', False)
             }
             
-            # Emit GTM protobuf telemetry (best-effort/no-op if unavailable)
-            if GTM_EMITTER_AVAILABLE:
+            # Emit GTM protobuf telemetry (high-value only, best-effort/no-op if unavailable)
+            should_emit = (
+                enhanced_analysis.get('embedding_analysis_used') or
+                enhanced_analysis.get('priority_score', 0) > 0.8 or
+                enhanced_analysis.get('cluster_analysis', {}).get('is_novel', False)
+            )
+            if GTM_EMITTER_AVAILABLE and should_emit:
                 try:
                     emit_embedding_event(
                         project_name=self.config.get('project_name'),
                         crash_report=crash_report,
                         analysis=enhanced_analysis,
                         config=self.config,
-                        model_name='models/embedding-001' if enhanced_analysis.get('embedding_analysis_used') else ''
+                        model_name='local-hash-embedding' if enhanced_analysis.get('embedding_analysis_used') else ''
                     )
                 except Exception:
                     pass
@@ -167,7 +179,7 @@ class LeanEmbeddingIntelligence:
         return enhanced
     
     def _should_use_embeddings(self, analysis: Dict) -> bool:
-        """Decide if crash warrants expensive embedding analysis."""
+        """Decide if crash warrants embedding analysis (local first)."""
         
         # Check budget first
         if self.current_daily_cost >= self.daily_budget:
@@ -190,82 +202,75 @@ class LeanEmbeddingIntelligence:
         return any(high_value_indicators)
     
     def _selective_embedding_analysis(self, crash_report: Dict) -> Dict:
-        """Selective embedding analysis for high-value crashes only."""
+        """Selective embedding analysis for high-value crashes only.
+        Prefers free local hashing-based embedding; optionally falls back to cloud if enabled.
+        """
         
         # Create optimized crash text (minimize tokens = minimize cost)
         crash_text = self._create_optimized_crash_text(crash_report)
         
-        # Generate cache key
+        # Generate cache key for this text
         cache_key = hashlib.sha256(crash_text.encode()).hexdigest()
         
-        # Check cache first
+        # Check cache first (local embeddings stored here as well)
         cached_embedding = self._get_cached_embedding(cache_key)
-        
         if cached_embedding is not None:
             self.stats['cache_hits'] += 1
-            embedding_result = {
+            return {
                 'embedding_analysis_used': True,
                 'cache_hit': True,
                 'estimated_cost': 0.0,
                 'similar_crashes': self._find_similar_crashes_fast(cached_embedding)
             }
-        else:
-            # Generate new embedding (costs money)
-            embedding_result = self._generate_new_embedding(crash_text, cache_key)
         
-        return embedding_result
-    
-    def _generate_new_embedding(self, crash_text: str, cache_key: str) -> Dict:
-        """Generate new embedding with cost tracking."""
-        
-        try:
-            # Only import when actually needed
-            import google.generativeai as genai
-            
-            # Configure API key
-            api_key = os.environ.get('GOOGLE_API_KEY')
-            if not api_key:
-                print("Warning: GOOGLE_API_KEY not set, skipping embedding generation")
-                return {'embedding_analysis_used': False, 'error': 'no_api_key'}
-            
-            genai.configure(api_key=api_key)
-            
-            # Generate embedding
-            embedding_response = genai.embed_content(
-                model='models/embedding-001',
-                content=crash_text,
-                task_type="classification"
-            )
-            
-            embedding = np.array(embedding_response['embedding'])
-            
-            # Cache the result
-            self._cache_embedding(cache_key, embedding)
-            
-            # Update cost tracking
-            self.current_daily_cost += self.cost_per_embedding
-            self._save_daily_cost()
-            
+        # Generate local embedding (free)
+        local_embedding = self._create_local_embedding(crash_text)
+        if local_embedding is not None:
+            self._cache_embedding(cache_key, local_embedding)
             self.stats['embeddings_generated'] += 1
-            
-            # Find similar crashes
-            similar_crashes = self._find_similar_crashes_fast(embedding)
-            
             return {
                 'embedding_analysis_used': True,
                 'cache_hit': False,
-                'estimated_cost': self.cost_per_embedding,
-                'similar_crashes': similar_crashes,
-                'embedding_confidence': self._calculate_embedding_confidence(embedding)
+                'estimated_cost': 0.0,
+                'similar_crashes': self._find_similar_crashes_fast(local_embedding),
+                'embedding_confidence': float(min(np.linalg.norm(local_embedding) / 10.0, 1.0)),
             }
-            
-        except Exception as e:
-            print(f"Embedding generation failed: {e}")
-            return {
-                'embedding_analysis_used': False,
-                'error': str(e),
-                'estimated_cost': 0.0
-            }
+        
+        # Optional: cloud embedding only if explicitly enabled
+        if self.config.get('enable_cloud_embeddings', False):
+            try:
+                import google.generativeai as genai
+                api_key = os.environ.get('GOOGLE_API_KEY')
+                if not api_key:
+                    return {'embedding_analysis_used': False, 'error': 'no_api_key'}
+                genai.configure(api_key=api_key)
+                embedding_response = genai.embed_content(
+                    model='models/embedding-001',
+                    content=crash_text,
+                    task_type="classification"
+                )
+                embedding = np.array(embedding_response['embedding'], dtype=np.float32)
+                self._cache_embedding(cache_key, embedding)
+                self.current_daily_cost += self.cost_per_embedding
+                self._save_daily_cost()
+                self.stats['embeddings_generated'] += 1
+                return {
+                    'embedding_analysis_used': True,
+                    'cache_hit': False,
+                    'estimated_cost': self.cost_per_embedding,
+                    'similar_crashes': self._find_similar_crashes_fast(embedding),
+                    'embedding_confidence': self._calculate_embedding_confidence(embedding)
+                }
+            except Exception as e:
+                print(f"Embedding generation failed: {e}")
+                return {
+                    'embedding_analysis_used': False,
+                    'error': str(e),
+                    'estimated_cost': 0.0
+                }
+        
+        # If nothing worked, return no-op
+        return {'embedding_analysis_used': False, 'estimated_cost': 0.0}
     
     def _create_optimized_crash_text(self, crash_report: Dict) -> str:
         """Create cost-optimized text for embedding (minimize tokens)."""
@@ -409,7 +414,7 @@ class LeanEmbeddingIntelligence:
             
         import re
         # Remove addresses and line numbers
-        normalized = re.sub(r'0x[0-9a-f]+', 'ADDR', error_message)
+        normalized = re.sub(r'0x[0-9a-fA-F]+', 'ADDR', error_message)
         normalized = re.sub(r':\d+', ':LINE', normalized)
         normalized = re.sub(r'\d+', 'NUM', normalized)
         
@@ -590,8 +595,16 @@ class LeanEmbeddingIntelligence:
         return self.embedding_cache.get(cache_key)
     
     def _cache_embedding(self, cache_key: str, embedding: np.ndarray):
-        """Cache embedding to disk."""
-        self.embedding_cache[cache_key] = embedding
+        """Cache embedding to disk with periodic save and size cap."""
+        # Size cap eviction (FIFO by insertion order)
+        if len(self.embedding_cache) >= self.max_cache_size:
+            try:
+                # Pop an arbitrary (oldest-like) item
+                first_key = next(iter(self.embedding_cache))
+                self.embedding_cache.pop(first_key, None)
+            except StopIteration:
+                pass
+        self.embedding_cache[cache_key] = embedding.astype(np.float32)
         
         # Periodic cache save (not every time for performance)
         if len(self.embedding_cache) % 10 == 0:
@@ -631,9 +644,23 @@ class LeanEmbeddingIntelligence:
             json.dump(data, f)
     
     def _find_similar_crashes_fast(self, embedding: np.ndarray) -> List[Dict]:
-        """Find similar crashes using cached embeddings."""
-        # For now, return placeholder (would implement similarity search)
-        return []
+        """Find similar crashes using cached embeddings via cosine similarity."""
+        if embedding is None or not self.embedding_cache:
+            return []
+        # Ensure normalized
+        def _norm(x: np.ndarray) -> np.ndarray:
+            n = np.linalg.norm(x)
+            return x / n if n > 0 else x
+        query = _norm(embedding.astype(np.float32))
+        results: List[Dict] = []
+        for key, emb in self.embedding_cache.items():
+            other = _norm(emb.astype(np.float32))
+            sim = float(np.dot(query, other))
+            if sim >= self.similarity_threshold:
+                results.append({'cache_key': key, 'similarity': sim})
+        # Sort by similarity desc and limit
+        results.sort(key=lambda r: r['similarity'], reverse=True)
+        return results[:20]
     
     def _calculate_embedding_confidence(self, embedding: np.ndarray) -> float:
         """Calculate confidence in embedding quality."""
@@ -654,6 +681,30 @@ class LeanEmbeddingIntelligence:
                 'cache_hit_rate': self.stats['cache_hits'] / max(self.stats['crashes_analyzed'], 1)
             }
         }
+    
+    # Local embedding (free, dependency-free)
+    def _create_local_embedding(self, text: str) -> Optional[np.ndarray]:
+        """Create a lightweight hashing-based text embedding using only stdlib+numpy.
+        Produces a fixed-size L2-normalized vector.
+        """
+        if not text:
+            return None
+        dim = self.local_embedding_dim
+        vec = np.zeros((dim,), dtype=np.float32)
+        # Tokenize on non-alphanumerics, lowercase
+        import re
+        tokens = re.split(r'[^A-Za-z0-9_]+', text.lower())
+        for tok in tokens:
+            if not tok:
+                continue
+            h = int(hashlib.md5(tok.encode()).hexdigest(), 16)
+            idx = h % dim
+            vec[idx] += 1.0
+        # L2 normalize
+        n = np.linalg.norm(vec)
+        if n > 0:
+            vec /= n
+        return vec
 
 # Easy integration function
 def analyze_crash_with_intelligence(crash_report: Dict, config: Optional[Dict] = None) -> Dict:
