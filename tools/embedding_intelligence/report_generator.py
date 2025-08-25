@@ -42,7 +42,7 @@ def load_events(cache_dir: str) -> List[Dict[str, Any]]:
 
 def generate_html_report(events: List[Dict[str, Any]]) -> str:
 	total = len(events)
-	emb_used = sum(1 for e in events if e.get('embedding_used'))
+	emb_used = sum(bool(e.get('embedding_used'))
 	cache_hits = sum(1 for e in events if e.get('cache_hit'))
 	novel = sum(1 for e in events if e.get('is_novel'))
 	dup = sum(bool(e.get('is_duplicate'))
