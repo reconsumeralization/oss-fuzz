@@ -11,7 +11,7 @@ def cmd_status(args: argparse.Namespace) -> int:
 	cache_dir = args.cache_dir
 	events = load_events(cache_dir)
 	total = len(events)
-	emb_used = sum(1 for e in events if e.get('embedding_used'))
+	emb_used = sum(bool(e.get('embedding_used'))
 	cache_hits = sum(1 for e in events if e.get('cache_hit'))
 	print(f"Events: {total} | Embedding used: {emb_used} | Cache hits: {cache_hits}")
 	return 0
