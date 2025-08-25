@@ -15,7 +15,7 @@
 ################################################################################
 
 homepage: "https://github.com/google-gemini/gemini-cli"
-language: go  # Primary language - Go fuzzing with native Go fuzzing support
+language: go
 primary_contact: "reconsumeralization@gmail.com"
 auto_ccs:
   - "security@google.com"
@@ -23,8 +23,7 @@ vendor_ccs:
   - "reconsumeralization@gmail.com"
 main_repo: "https://github.com/google-gemini/gemini-cli.git"
 
-# OSS-Fuzz Integration for Gemini CLI
-# Comprehensive fuzzing coverage for critical input parsing and security validation
+# OSS-Fuzz Integration for Gemini CLI - Foundation Setup
 file_github_issue: true
 
 # Build integration settings
@@ -45,41 +44,21 @@ fuzzing_engines:
 architectures:
   - x86_64
 
-# Coverage configuration
+# Coverage configuration - minimal for foundation
 coverage_extra_args: |
-  --include=/src/gemini-cli/src/**/*.js
-  --include=/src/gemini-cli/src/**/*.ts
   --include=/src/gemini-cli/gofuzz/**/*.go
-  --exclude=/src/gemini-cli/**/test*.js
-  --exclude=/src/gemini-cli/**/spec*.js
-  --exclude=/src/gemini-cli/**/node_modules/**
-  --exclude=/src/gemini-cli/**/build_cache/**
-  --exclude=/src/gemini-cli/**/dist/**
   --exclude=/src/gemini-cli/gofuzz/fuzz/**
+  --exclude=/src/gemini-cli/**/node_modules/**
   --gcov-options="--branch-counts --branch-probabilities"
   --keep-going
 
-# Fuzz introspector configuration
+# Fuzz introspector configuration - minimal for foundation
 fuzz_introspector: |
   analyze: |
-    # Core fuzz targets for Gemini CLI security
+    # Foundation fuzz targets (Phase 1)
     - gofuzz/fuzz/fuzz_config_parser.go
     - gofuzz/fuzz/fuzz_cli_parser.go
-    - gofuzz/fuzz/fuzz_mcp_request.go
-    - gofuzz/fuzz/fuzz_mcp_response.go
-    - gofuzz/fuzz/fuzz_oauth_token_request.go
-    - gofuzz/fuzz/fuzz_oauth_token_response.go
-    - gofuzz/fuzz/fuzz_file_system_operations.go
-    - gofuzz/fuzz/fuzz_url_parser.go
-    - gofuzz/fuzz/fuzz_crypto_operations.go
-    - gofuzz/fuzz/fuzz_environment_parser.go
     - gofuzz/fuzz/fuzz_input_sanitizer.go
-    - gofuzz/fuzz/fuzz_slash_commands.go
-    - gofuzz/fuzz/fuzz_context_file_parser.go
-    - gofuzz/fuzz/fuzz_path_validation.go
-    - gofuzz/fuzz/fuzz_shell_validation.go
-    - gofuzz/fuzz/fuzz_symlink_validation.go
-    - gofuzz/fuzz/fuzz_tool_invocation.go
 
   # Performance optimization
   performance:
@@ -91,11 +70,6 @@ fuzz_introspector: |
 labels:
   - cli
   - security
-  - json
-  - ai
-  - llm
   - go
   - fuzzing
   - input-validation
-  - oauth
-  - mcp

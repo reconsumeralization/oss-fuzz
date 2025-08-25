@@ -14,19 +14,13 @@
 #
 ################################################################################
 
-# Dockerfile for Gemini CLI OSS-Fuzz integration
-# Go fuzzing environment for critical input parsing and security validation
+# Dockerfile for Gemini CLI OSS-Fuzz Foundation Setup
+# Phase 1: Basic Go fuzzing environment
 
 FROM gcr.io/oss-fuzz-base/base-builder
 
 # Install Go
 RUN install_go.sh
-
-# Install additional build dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    make \
-    && rm -rf /var/lib/apt/lists/*
 
 # Copy project source
 COPY . $SRC/gemini-cli/
@@ -38,4 +32,4 @@ WORKDIR $SRC/gemini-cli/
 RUN go version
 
 # Print completion message
-RUN echo "Docker environment ready for Gemini CLI Go fuzzing"
+RUN echo "Foundation Docker environment ready for Gemini CLI Go fuzzing"
