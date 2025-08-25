@@ -72,8 +72,16 @@ class LeanEmbeddingIntelligence:
         
         # Local embedding settings (free, offline)
         self.local_embedding_dim = int(self.config.get('local_embedding_dim', 2048))
+        if self.local_embedding_dim <= 0:
+            raise ValueError(f"local_embedding_dim must be positive, got {self.local_embedding_dim}")
+
         self.similarity_threshold = float(self.config.get('similarity_threshold', 0.8))
+        if not (0.0 < self.similarity_threshold <= 1.0):
+            raise ValueError(f"similarity_threshold must be in (0, 1], got {self.similarity_threshold}")
+
         self.max_cache_size = int(self.config.get('max_cache_size', 10000))
+        if self.max_cache_size <= 0:
+            raise ValueError(f"max_cache_size must be positive, got {self.max_cache_size}")
     
     def _get_default_config(self) -> Dict:
         """Get optimized default configuration."""
