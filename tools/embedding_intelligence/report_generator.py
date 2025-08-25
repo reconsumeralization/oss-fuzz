@@ -46,7 +46,7 @@ def generate_html_report(events: List[Dict[str, Any]]) -> str:
 	emb_used = sum(1 for e in events if e.get('embedding_used'))
 	cache_hits = sum(1 for e in events if e.get('cache_hit'))
 	novel = sum(1 for e in events if e.get('is_novel'))
-	dup = sum(1 for e in events if e.get('is_duplicate'))
+	dup = sum(bool(e.get('is_duplicate'))
 	total_cost = sum(float(e.get('estimated_cost', 0.0)) for e in events)
 	
 	rows = []
