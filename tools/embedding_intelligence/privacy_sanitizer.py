@@ -18,10 +18,6 @@ def sanitize_text(value: str) -> str:
 	return v[:2000]
 
 def sanitize_event_dict(event: Dict[str, Any]) -> Dict[str, Any]:
-	out = {}
-	for k, v in event.items():
-		if isinstance(v, str):
-			out[k] = sanitize_text(v)
-		else:
-			out[k] = v
-	return out
+	return {
+		k: sanitize_text(v) if isinstance(v, str) else v for k, v in event.items()
+	}
