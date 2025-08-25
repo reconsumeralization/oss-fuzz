@@ -35,8 +35,7 @@ def load_events(cache_dir: str) -> List[Dict[str, Any]]:
 		return []
 	items: List[Dict[str, Any]] = []
 	for p in sorted(events_dir.glob('*.*')):
-		item = _read_event_file(p)
-		if item:
+		if item := _read_event_file(p):
 			items.append(item)
 	return items
 
