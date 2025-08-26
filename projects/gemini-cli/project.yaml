@@ -13,9 +13,12 @@
 # limitations under the License.
 #
 ################################################################################
+# OSS-Fuzz project configuration for Gemini CLI
+# Comprehensive local development branch - Advanced system
+################################################################################
 
 homepage: "https://github.com/google-gemini/gemini-cli"
-language: javascript
+language: javascript  # Primary language - TypeScript/JavaScript with Jazzer.js
 primary_contact: "reconsumeralization@gmail.com"
 auto_ccs:
   - "security@google.com"
@@ -23,18 +26,20 @@ vendor_ccs:
   - "reconsumeralization@gmail.com"
 main_repo: "https://github.com/google-gemini/gemini-cli.git"
 
-# OSS-Fuzz Integration for Gemini CLI - Foundation Setup
-# TypeScript/JavaScript fuzzing with Jazzer.js
+# OSS-Fuzz Integration for Gemini CLI - Comprehensive Advanced System
+# Dual-language approach: TypeScript/JavaScript (primary) + Go (enhanced security)
 file_github_issue: true
 
 # Build integration settings
 build_integration:
-  build_script: build.sh
-  dockerfile: Dockerfile
+  build_script: build_comprehensive.sh
+  dockerfile: Dockerfile.comprehensive
 
-# Sanitizers for JavaScript fuzzing (none for JS)
+# Sanitizers for JavaScript fuzzing (none for JS, address/undefined for Go)
 sanitizers:
   - none
+  - address
+  - undefined
 
 # Fuzzing engines
 fuzzing_engines:
@@ -44,32 +49,81 @@ fuzzing_engines:
 architectures:
   - x86_64
 
-# Coverage configuration for TypeScript/JavaScript
+# Coverage configuration for comprehensive TypeScript/JavaScript + Go
 coverage_extra_args: |
   --include=/src/gemini-cli/packages/cli/src/**/*.ts
   --include=/src/gemini-cli/packages/cli/src/**/*.tsx
   --include=/src/gemini-cli/packages/core/src/**/*.ts
+  --include=/src/gemini-cli/gofuzz/**/*.go
   --exclude=/src/gemini-cli/**/node_modules/**
   --exclude=/src/gemini-cli/**/test*.ts
   --exclude=/src/gemini-cli/**/*.test.ts
   --exclude=/src/gemini-cli/**/dist/**
   --exclude=/src/gemini-cli/**/build/**
+  --exclude=/src/gemini-cli/gofuzz/fuzz/**
   --gcov-options="--branch-counts --branch-probabilities"
   --keep-going
 
-# Fuzz introspector configuration - minimal for foundation
+# Fuzz introspector configuration - comprehensive analysis
 fuzz_introspector: |
   analyze: |
     # Foundation fuzz targets (Phase 1) - TypeScript/JavaScript
     - fuzzers/fuzz_config_parser.js
     - fuzzers/fuzz_cli_parser.js
     - fuzzers/fuzz_input_sanitizer.js
+    
+    # Enhanced fuzz targets (Phase 2) - TypeScript/JavaScript
+    - fuzzers/fuzz_env_parser.js
+    - fuzzers/fuzz_file_path_handler.js
+    - fuzzers/fuzz_http_request_parser.js
+    - fuzzers/fuzz_mcp_request.js
+    - fuzzers/fuzz_mcp_response.js
+    - fuzzers/fuzz_oauth_token_request.js
+    - fuzzers/fuzz_oauth_token_response.js
+    - fuzzers/fuzz_response_parser.js
+    - fuzzers/fuzz_url_parser.js
+    
+    # Security-critical fuzz targets (Phase 3) - Go
+    - gofuzz/fuzz/fuzz_symlink_validation.go
+    - gofuzz/fuzz/fuzz_path_validation.go
+    - gofuzz/fuzz/fuzz_context_file_parser.go
+    - gofuzz/fuzz/fuzz_shell_validation.go
+    
+    # Core functionality fuzz targets (Phase 4) - Go
+    - gofuzz/fuzz/fuzz_file_system_operations.go
+    - gofuzz/fuzz/fuzz_mcp_decoder.go
+    - gofuzz/fuzz/fuzz_crypto_operations.go
+    - gofuzz/fuzz/fuzz_slash_commands.go
 
   # Performance optimization
   performance:
-    target_executions_per_second: 1000
-    max_memory_mb: 2048
-    timeout_seconds: 30
+    enabled: true
+    timeout: 60
+    max_total_time: 3600
+
+# Project-specific settings
+project_yaml_settings:
+  # Enhanced security focus
+  security_focus: true
+  critical_issues:
+    - "Issue #1121: Symlink traversal vulnerability"
+    - "Prompt injection attacks"
+    - "Path traversal vulnerabilities"
+    - "Command injection vulnerabilities"
+  
+  # Dual-language support
+  languages:
+    - javascript
+    - typescript
+    - go
+  
+  # Advanced features
+  features:
+    - "Comprehensive fuzz target coverage"
+    - "Security-critical vulnerability detection"
+    - "Dual-language fuzzing approach"
+    - "Enhanced crash analysis"
+    - "Intelligent test case generation"
 
 # Labels for categorization
 labels:
@@ -77,6 +131,12 @@ labels:
   - security
   - javascript
   - typescript
+  - go
   - nodejs
   - fuzzing
   - input-validation
+  - path-traversal
+  - command-injection
+  - prompt-injection
+  - comprehensive
+  - advanced
