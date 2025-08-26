@@ -16,34 +16,35 @@
 ################################################################################
 
 # Build script for OSS-Fuzz - Gemini CLI Foundation Setup
-# Phase 1: Basic Go fuzzing with 3 essential fuzz targets
+# Phase 1: Basic TypeScript/JavaScript fuzzing with Jazzer.js
 
 echo "Building Gemini CLI foundation fuzzers (Phase 1)..."
 
 # Move into project directory
-cd /src/projects/gemini-cli
+cd /src/gemini-cli
 
-# Initialize Go module if needed
-if [ ! -f gofuzz/go.mod ]; then
-  echo "Initializing Go module..."
-  cd gofuzz
-  go mod init github.com/google-gemini/gemini-cli/gofuzz
-  cd ..
-fi
+# Install dependencies
+echo "Installing dependencies..."
+npm install
+
+# Install Jazzer.js for fuzzing
+echo "Installing Jazzer.js..."
+npm install --save-dev @jazzer.js/core
+
+# Build TypeScript code
+echo "Building TypeScript code..."
+npm run build
 
 # Build foundation fuzz targets (Phase 1)
 echo "Building foundation fuzz targets..."
 
-cd gofuzz
-go mod tidy
-go mod download
+# Create fuzzers directory if it doesn't exist
+mkdir -p fuzzers
 
-# Foundation fuzz targets - minimal set for Phase 1
-compile_go_fuzzer github.com/google-gemini/gemini-cli/gofuzz/fuzz FuzzConfigParser fuzz_config_parser
-compile_go_fuzzer github.com/google-gemini/gemini-cli/gofuzz/fuzz FuzzCLIParser fuzz_cli_parser
-compile_go_fuzzer github.com/google-gemini/gemini-cli/gofuzz/fuzz FuzzInputSanitizer fuzz_input_sanitizer
-
-cd ..
+# Build foundation fuzz targets - TypeScript/JavaScript
+compile_javascript_fuzzer fuzzers fuzz_config_parser.js --sync
+compile_javascript_fuzzer fuzzers fuzz_cli_parser.js --sync
+compile_javascript_fuzzer fuzzers fuzz_input_sanitizer.js --sync
 
 echo "Foundation fuzz targets built successfully!"
 
@@ -55,14 +56,17 @@ mkdir -p seeds/foundation
 # Config parser seeds
 echo '{"api_key": "test_key", "model": "gemini-pro"}' > seeds/foundation/config_valid.json
 echo '{}' > seeds/foundation/config_empty.json
+echo '{"invalid": "json", "missing": "quote}' > seeds/foundation/config_invalid.json
 
 # CLI parser seeds
 echo 'gemini chat "Hello world"' > seeds/foundation/cli_valid.txt
 echo 'gemini --help' > seeds/foundation/cli_help.txt
+echo 'gemini --invalid-flag' > seeds/foundation/cli_invalid.txt
 
 # Input sanitizer seeds
 echo 'normal_input' > seeds/foundation/input_normal.txt
 echo '<script>alert("xss")</script>' > seeds/foundation/input_xss.txt
+echo 'javascript:alert("injection")' > seeds/foundation/input_injection.txt
 
 # Package seed corpora
 if [ -d "seeds" ]; then
@@ -77,7 +81,9 @@ cat > $OUT/fuzz_config_parser.dict << 'EOF'
   "api_key": "string",
   "model": "string",
   "gemini-pro": "string",
-  "gemini-pro-vision": "string"
+  "gemini-pro-vision": "string",
+  "temperature": "number",
+  "max_tokens": "number"
 }
 EOF
 
@@ -86,7 +92,9 @@ cat > $OUT/fuzz_cli_parser.dict << 'EOF'
   "gemini": "string",
   "chat": "string",
   "help": "string",
-  "--": "string"
+  "--": "string",
+  "--model": "string",
+  "--prompt": "string"
 }
 EOF
 
@@ -95,7 +103,8 @@ cat > $OUT/fuzz_input_sanitizer.dict << 'EOF'
   "<script>": "string",
   "javascript:": "string",
   "onerror=": "string",
-  "onload=": "string"
+  "onload=": "string",
+  "eval(": "string"
 }
 EOF
 

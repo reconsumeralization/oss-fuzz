@@ -15,7 +15,7 @@
 ################################################################################
 
 homepage: "https://github.com/google-gemini/gemini-cli"
-language: go
+language: javascript
 primary_contact: "reconsumeralization@gmail.com"
 auto_ccs:
   - "security@google.com"
@@ -24,6 +24,7 @@ vendor_ccs:
 main_repo: "https://github.com/google-gemini/gemini-cli.git"
 
 # OSS-Fuzz Integration for Gemini CLI - Foundation Setup
+# TypeScript/JavaScript fuzzing with Jazzer.js
 file_github_issue: true
 
 # Build integration settings
@@ -31,10 +32,9 @@ build_integration:
   build_script: build.sh
   dockerfile: Dockerfile
 
-# Sanitizers for Go fuzzing
+# Sanitizers for JavaScript fuzzing (none for JS)
 sanitizers:
-  - address
-  - undefined
+  - none
 
 # Fuzzing engines
 fuzzing_engines:
@@ -44,21 +44,26 @@ fuzzing_engines:
 architectures:
   - x86_64
 
-# Coverage configuration - minimal for foundation
+# Coverage configuration for TypeScript/JavaScript
 coverage_extra_args: |
-  --include=/src/gemini-cli/gofuzz/**/*.go
-  --exclude=/src/gemini-cli/gofuzz/fuzz/**
+  --include=/src/gemini-cli/packages/cli/src/**/*.ts
+  --include=/src/gemini-cli/packages/cli/src/**/*.tsx
+  --include=/src/gemini-cli/packages/core/src/**/*.ts
   --exclude=/src/gemini-cli/**/node_modules/**
+  --exclude=/src/gemini-cli/**/test*.ts
+  --exclude=/src/gemini-cli/**/*.test.ts
+  --exclude=/src/gemini-cli/**/dist/**
+  --exclude=/src/gemini-cli/**/build/**
   --gcov-options="--branch-counts --branch-probabilities"
   --keep-going
 
 # Fuzz introspector configuration - minimal for foundation
 fuzz_introspector: |
   analyze: |
-    # Foundation fuzz targets (Phase 1)
-    - gofuzz/fuzz/fuzz_config_parser.go
-    - gofuzz/fuzz/fuzz_cli_parser.go
-    - gofuzz/fuzz/fuzz_input_sanitizer.go
+    # Foundation fuzz targets (Phase 1) - TypeScript/JavaScript
+    - fuzzers/fuzz_config_parser.js
+    - fuzzers/fuzz_cli_parser.js
+    - fuzzers/fuzz_input_sanitizer.js
 
   # Performance optimization
   performance:
@@ -70,6 +75,8 @@ fuzz_introspector: |
 labels:
   - cli
   - security
-  - go
+  - javascript
+  - typescript
+  - nodejs
   - fuzzing
   - input-validation

@@ -1,13 +1,14 @@
+
 # Gemini CLI OSS-Fuzz Integration - Foundation Setup
 
 ## Overview
-This PR establishes the foundation for OSS-Fuzz integration with Gemini CLI, providing basic fuzzing coverage for critical input parsing components.
+This PR establishes the foundation for OSS-Fuzz integration with Gemini CLI, providing basic fuzzing coverage for critical input parsing components using TypeScript/JavaScript fuzzing with Jazzer.js.
 
 ## What This PR Does
 
 ### ✅ Foundation Setup
-- **Basic OSS-Fuzz Configuration**: Minimal `project.yaml` with Go fuzzing support
-- **Simple Build Environment**: Clean `Dockerfile` using standard OSS-Fuzz base image
+- **Basic OSS-Fuzz Configuration**: Minimal `project.yaml` with JavaScript fuzzing support
+- **Simple Build Environment**: Clean `Dockerfile` using Node.js 20.x LTS
 - **Essential Fuzz Targets**: 3 core fuzz targets for critical functionality
 - **Proper Exclusion**: `.gitignore` excludes node_modules and build artifacts
 
@@ -18,10 +19,11 @@ This PR establishes the foundation for OSS-Fuzz integration with Gemini CLI, pro
 
 ### 📁 Files Added
 - `project.yaml` - OSS-Fuzz project configuration
-- `Dockerfile` - Build environment setup
-- `build.sh` - Fuzz target compilation script
+- `Dockerfile` - Build environment setup with Node.js
+- `build.sh` - Fuzz target compilation script with Jazzer.js
 - `.gitignore` - Excludes unnecessary files
 - `PR_STRATEGY.md` - Phased integration plan
+- `fuzzers/` - JavaScript fuzz targets using Jazzer.js
 
 ## Why This Approach
 
@@ -41,6 +43,19 @@ This PR establishes the foundation for OSS-Fuzz integration with Gemini CLI, pro
 - **Well-Documented**: Clear strategy for phased expansion
 - **Tested**: Basic seed corpora and dictionaries included
 
+## Technical Details
+
+### 🛠️ Technology Stack
+- **Language**: JavaScript/TypeScript (matches actual Gemini CLI codebase)
+- **Fuzzing Engine**: Jazzer.js (OSS-Fuzz's JavaScript fuzzer)
+- **Runtime**: Node.js 20.x LTS
+- **Build System**: npm + esbuild
+
+### 🎯 Target Areas
+- **Configuration Parsing**: JSON config validation and merging
+- **CLI Argument Parsing**: Command-line argument validation
+- **Input Sanitization**: XSS, injection, and path traversal detection
+
 ## Testing
 
 ### ✅ Build Verification
@@ -50,9 +65,9 @@ This PR establishes the foundation for OSS-Fuzz integration with Gemini CLI, pro
 - [ ] No build errors or warnings
 
 ### ✅ Coverage
-- Configuration parsing: Basic JSON validation
-- CLI parsing: Command-line argument handling
-- Input sanitization: XSS and injection prevention
+- Configuration parsing: JSON validation and type checking
+- CLI parsing: Argument parsing and command validation
+- Input sanitization: XSS, injection, and path validation
 
 ## Next Steps
 

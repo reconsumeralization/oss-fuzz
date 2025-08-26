@@ -1,0 +1,70 @@
+build:
+  check_required_files: true
+  enabled: true
+  parallel_workers: 4
+  test_build_scripts: true
+  timeout_seconds: 300
+  validate_yaml: true
+compliance:
+  auto_fix_ai_references: true
+  auto_fix_copyright_headers: true
+  check_ai_references: true
+  check_copyright_headers: true
+  check_required_files: true
+  check_yaml_syntax: true
+  enabled: true
+  exclude_files:
+  - master-compliance-deploy.py
+  - enhanced-master-deploy.py
+  - comprehensive-compliance-deploy.py
+  - security-audit-integration.py
+deployment:
+  deployment_timeout: 600
+  dry_run: false
+  enabled: true
+  health_check_after_deployment: true
+  max_parallel_deployments: 2
+  parallel_deployment: true
+  rollback_on_failure: true
+monitoring:
+  dashboard_url: http://localhost:8080
+  enabled: true
+  generate_reports: true
+  notify_on_failure: true
+  save_logs: true
+projects:
+  dependencies:
+    bitcoin-core:
+    - openssl
+    g-api-python-tasks:
+    - gemini_cli
+    model-transparency:
+    - gemini_cli
+    - gemini-cli
+    nginx:
+    - openssl
+  language_mapping:
+    bitcoin-core: cpp
+    curl: cpp
+    g-api-python-tasks: python
+    gemini-cli: python
+    gemini_cli: javascript
+    model-transparency: python
+    nginx: cpp
+    openssl: cpp
+  priority_order:
+  - gemini_cli
+  - gemini-cli
+  - model-transparency
+  - g-api-python-tasks
+  - bitcoin-core
+  - curl
+  - openssl
+  - nginx
+security:
+  audit_files: []
+  auto_fix_low_severity: false
+  block_deployment_on_critical: true
+  block_deployment_on_high: false
+  enabled: true
+  require_security_review: true

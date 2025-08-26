@@ -1,0 +1,307 @@
+2025-08-24 03:06:08,111 - ERROR - Missing required field: name
+2025-08-24 03:06:20,749 - INFO - Build script validated
+2025-08-24 03:06:20,753 - ERROR - Docker config check failed: 'charmap' codec can't decode byte 0x8f in position 5369: character maps to <undefined>
+2025-08-24 03:06:20,758 - INFO - Found 13 fuzzer files
+2025-08-24 03:06:21,208 - ERROR - Files without Google copyright headers: ['fuzzers\\fuzz_ai_prompt_parser.py', 'plugins\\base_plugin.py', 'plugins\\fuzzer_generation.py', 'fuzzers\\gemini_mutators.js']
+2025-08-24 03:06:21,373 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:06:29,461 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:07:14,765 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:07:14,771 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:07:14,772 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:07:14,773 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:07:14,773 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:07:14,774 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:07:14,775 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:07:14,780 - INFO - Security check completed
+2025-08-24 03:07:14,785 - ERROR -   - Project Configuration failed
+2025-08-24 03:07:14,786 - ERROR -   - Docker Configuration failed
+2025-08-24 03:07:14,786 - ERROR -   - Compliance Check failed
+2025-08-24 03:09:05,890 - INFO - Starting full automated rollout for Gemini CLI OSS-Fuzz integration
+2025-08-24 03:09:05,891 - INFO - Starting pre-deployment checks...
+2025-08-24 03:09:05,924 - INFO - Project config validated: gemini_cli
+2025-08-24 03:09:05,924 - INFO - PASS Project Configuration: PASSED
+2025-08-24 03:09:15,542 - INFO - Build script validated
+2025-08-24 03:09:15,542 - INFO - PASS Build Script: PASSED
+2025-08-24 03:09:15,543 - ERROR - Docker config check failed: 'charmap' codec can't decode byte 0x8f in position 5369: character maps to <undefined>
+2025-08-24 03:09:15,543 - INFO - FAIL Docker Configuration: FAILED
+2025-08-24 03:09:15,545 - INFO - Found 13 fuzzer files
+2025-08-24 03:09:15,546 - INFO - PASS Fuzzer Validation: PASSED
+2025-08-24 03:09:15,857 - ERROR - Files without Google copyright headers: ['fuzzers\\fuzz_ai_prompt_parser.py']
+2025-08-24 03:09:15,857 - INFO - FAIL Compliance Check: FAILED
+2025-08-24 03:09:15,955 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:09:16,015 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:09:16,678 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:09:16,694 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:09:16,695 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:09:16,695 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:09:16,696 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:09:16,696 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:09:16,699 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:09:16,714 - INFO - Security check completed
+2025-08-24 03:09:16,715 - INFO - PASS Security Scan: PASSED
+2025-08-24 03:09:16,715 - ERROR - Some pre-deployment checks failed!
+2025-08-24 03:09:16,715 - ERROR -   - Docker Configuration failed
+2025-08-24 03:09:16,716 - ERROR -   - Compliance Check failed
+2025-08-24 03:09:16,716 - ERROR - Pre-deployment checks failed. Aborting rollout.
+2025-08-24 03:10:20,573 - INFO - Starting full automated rollout for Gemini CLI OSS-Fuzz integration
+2025-08-24 03:10:20,574 - INFO - Starting pre-deployment checks...
+2025-08-24 03:10:20,613 - INFO - Project config validated: gemini_cli
+2025-08-24 03:10:20,613 - INFO - PASS Project Configuration: PASSED
+2025-08-24 03:10:26,091 - INFO - Build script validated
+2025-08-24 03:10:26,092 - INFO - PASS Build Script: PASSED
+2025-08-24 03:10:26,094 - INFO - Dockerfile validated
+2025-08-24 03:10:26,094 - INFO - PASS Docker Configuration: PASSED
+2025-08-24 03:10:26,096 - INFO - Found 13 fuzzer files
+2025-08-24 03:10:26,097 - INFO - PASS Fuzzer Validation: PASSED
+2025-08-24 03:10:26,595 - ERROR - Files without Google copyright headers: ['fuzzers\\fuzz_token_validation.py', 'plugins\\dynamic_heuristic.py', 'fuzzers\\fuzz_url_parser.js']
+2025-08-24 03:10:26,595 - INFO - FAIL Compliance Check: FAILED
+2025-08-24 03:10:26,734 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:10:26,830 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:10:27,346 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:10:27,357 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:10:27,358 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:10:27,358 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:10:27,359 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:10:27,360 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:10:27,362 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:10:27,373 - INFO - Security check completed
+2025-08-24 03:10:27,375 - INFO - PASS Security Scan: PASSED
+2025-08-24 03:10:27,376 - ERROR - Some pre-deployment checks failed!
+2025-08-24 03:10:27,376 - ERROR -   - Compliance Check failed
+2025-08-24 03:10:27,376 - ERROR - Pre-deployment checks failed. Aborting rollout.
+2025-08-24 03:11:13,126 - INFO - Starting full automated rollout for Gemini CLI OSS-Fuzz integration
+2025-08-24 03:11:13,127 - INFO - Starting pre-deployment checks...
+2025-08-24 03:11:13,175 - INFO - Project config validated: gemini_cli
+2025-08-24 03:11:13,175 - INFO - PASS Project Configuration: PASSED
+2025-08-24 03:11:17,881 - INFO - Build script validated
+2025-08-24 03:11:17,882 - INFO - PASS Build Script: PASSED
+2025-08-24 03:11:17,882 - INFO - Dockerfile validated
+2025-08-24 03:11:17,883 - INFO - PASS Docker Configuration: PASSED
+2025-08-24 03:11:17,884 - INFO - Found 13 fuzzer files
+2025-08-24 03:11:17,884 - INFO - PASS Fuzzer Validation: PASSED
+2025-08-24 03:11:18,338 - ERROR - AI references found in orchestrate-rollout.py
+2025-08-24 03:11:18,339 - INFO - FAIL Compliance Check: FAILED
+2025-08-24 03:11:18,458 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:11:18,535 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:11:19,116 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:11:19,131 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:11:19,132 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:11:19,133 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:11:19,133 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:11:19,134 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:11:19,136 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:11:19,145 - INFO - Security check completed
+2025-08-24 03:11:19,146 - INFO - PASS Security Scan: PASSED
+2025-08-24 03:11:19,146 - ERROR - Some pre-deployment checks failed!
+2025-08-24 03:11:19,147 - ERROR -   - Compliance Check failed
+2025-08-24 03:11:19,147 - ERROR - Pre-deployment checks failed. Aborting rollout.
+2025-08-24 03:11:39,271 - INFO - Starting full automated rollout for Gemini CLI OSS-Fuzz integration
+2025-08-24 03:11:39,271 - INFO - Starting pre-deployment checks...
+2025-08-24 03:11:39,317 - INFO - Project config validated: gemini_cli
+2025-08-24 03:11:39,318 - INFO - PASS Project Configuration: PASSED
+2025-08-24 03:11:45,398 - INFO - Build script validated
+2025-08-24 03:11:45,399 - INFO - PASS Build Script: PASSED
+2025-08-24 03:11:45,400 - INFO - Dockerfile validated
+2025-08-24 03:11:45,400 - INFO - PASS Docker Configuration: PASSED
+2025-08-24 03:11:45,402 - INFO - Found 13 fuzzer files
+2025-08-24 03:11:45,402 - INFO - PASS Fuzzer Validation: PASSED
+2025-08-24 03:11:45,765 - ERROR - AI references found in rapid_expand.py
+2025-08-24 03:11:45,766 - INFO - FAIL Compliance Check: FAILED
+2025-08-24 03:11:45,919 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:11:46,001 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:11:46,591 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:11:46,603 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:11:46,604 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:11:46,604 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:11:46,605 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:11:46,605 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:11:46,607 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:11:46,621 - INFO - Security check completed
+2025-08-24 03:11:46,622 - INFO - PASS Security Scan: PASSED
+2025-08-24 03:11:46,623 - ERROR - Some pre-deployment checks failed!
+2025-08-24 03:11:46,623 - ERROR -   - Compliance Check failed
+2025-08-24 03:11:46,623 - ERROR - Pre-deployment checks failed. Aborting rollout.
+2025-08-24 03:12:10,206 - INFO - Starting full automated rollout for Gemini CLI OSS-Fuzz integration
+2025-08-24 03:12:10,207 - INFO - Starting pre-deployment checks...
+2025-08-24 03:12:10,251 - INFO - Project config validated: gemini_cli
+2025-08-24 03:12:10,252 - INFO - PASS Project Configuration: PASSED
+2025-08-24 03:12:15,938 - INFO - Build script validated
+2025-08-24 03:12:15,938 - INFO - PASS Build Script: PASSED
+2025-08-24 03:12:15,939 - INFO - Dockerfile validated
+2025-08-24 03:12:15,940 - INFO - PASS Docker Configuration: PASSED
+2025-08-24 03:12:15,942 - INFO - Found 13 fuzzer files
+2025-08-24 03:12:15,942 - INFO - PASS Fuzzer Validation: PASSED
+2025-08-24 03:12:16,225 - ERROR - AI references found in test_sentient_core.py
+2025-08-24 03:12:16,226 - INFO - FAIL Compliance Check: FAILED
+2025-08-24 03:12:16,326 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:12:16,373 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:12:16,749 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:12:16,755 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:12:16,755 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:12:16,756 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:12:16,757 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:12:16,757 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:12:16,761 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:12:16,768 - INFO - Security check completed
+2025-08-24 03:12:16,769 - INFO - PASS Security Scan: PASSED
+2025-08-24 03:12:16,769 - ERROR - Some pre-deployment checks failed!
+2025-08-24 03:12:16,769 - ERROR -   - Compliance Check failed
+2025-08-24 03:12:16,769 - ERROR - Pre-deployment checks failed. Aborting rollout.
+2025-08-24 03:13:03,225 - INFO - Starting full automated rollout for Gemini CLI OSS-Fuzz integration
+2025-08-24 03:13:03,226 - INFO - Starting pre-deployment checks...
+2025-08-24 03:13:03,271 - INFO - Project config validated: gemini_cli
+2025-08-24 03:13:03,271 - INFO - PASS Project Configuration: PASSED
+2025-08-24 03:13:07,756 - INFO - Build script validated
+2025-08-24 03:13:07,756 - INFO - PASS Build Script: PASSED
+2025-08-24 03:13:07,757 - INFO - Dockerfile validated
+2025-08-24 03:13:07,758 - INFO - PASS Docker Configuration: PASSED
+2025-08-24 03:13:07,759 - INFO - Found 13 fuzzer files
+2025-08-24 03:13:07,759 - INFO - PASS Fuzzer Validation: PASSED
+2025-08-24 03:13:08,184 - ERROR - AI references found in fuzzers\fuzz_token_validation.py
+2025-08-24 03:13:08,184 - INFO - FAIL Compliance Check: FAILED
+2025-08-24 03:13:08,300 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:13:08,361 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:13:08,884 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:13:08,896 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:13:08,897 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:13:08,897 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:13:08,898 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:13:08,898 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:13:08,900 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:13:08,910 - INFO - Security check completed
+2025-08-24 03:13:08,911 - INFO - PASS Security Scan: PASSED
+2025-08-24 03:13:08,912 - ERROR - Some pre-deployment checks failed!
+2025-08-24 03:13:08,912 - ERROR -   - Compliance Check failed
+2025-08-24 03:13:08,912 - ERROR - Pre-deployment checks failed. Aborting rollout.
+2025-08-24 03:14:22,259 - INFO - Starting full automated rollout for Gemini CLI OSS-Fuzz integration
+2025-08-24 03:14:22,259 - INFO - Starting pre-deployment checks...
+2025-08-24 03:14:22,296 - INFO - Project config validated: gemini_cli
+2025-08-24 03:14:22,297 - INFO - PASS Project Configuration: PASSED
+2025-08-24 03:14:26,880 - INFO - Build script validated
+2025-08-24 03:14:26,881 - INFO - PASS Build Script: PASSED
+2025-08-24 03:14:26,881 - INFO - Dockerfile validated
+2025-08-24 03:14:26,882 - INFO - PASS Docker Configuration: PASSED
+2025-08-24 03:14:26,884 - INFO - Found 13 fuzzer files
+2025-08-24 03:14:26,884 - INFO - PASS Fuzzer Validation: PASSED
+2025-08-24 03:14:27,208 - ERROR - AI references found in fuzzers\fuzz_url_parser.js
+2025-08-24 03:14:27,209 - INFO - FAIL Compliance Check: FAILED
+2025-08-24 03:14:27,378 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:14:27,460 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:14:28,196 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:14:28,204 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:14:28,205 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:14:28,205 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:14:28,206 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:14:28,207 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:14:28,208 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:14:28,220 - INFO - Security check completed
+2025-08-24 03:14:28,221 - INFO - PASS Security Scan: PASSED
+2025-08-24 03:14:28,222 - ERROR - Some pre-deployment checks failed!
+2025-08-24 03:14:28,222 - ERROR -   - Compliance Check failed
+2025-08-24 03:14:28,222 - ERROR - Pre-deployment checks failed. Aborting rollout.
+2025-08-24 03:14:45,993 - INFO - Starting full automated rollout for Gemini CLI OSS-Fuzz integration
+2025-08-24 03:14:45,994 - INFO - Starting pre-deployment checks...
+2025-08-24 03:14:46,032 - INFO - Project config validated: gemini_cli
+2025-08-24 03:14:46,032 - INFO - PASS Project Configuration: PASSED
+2025-08-24 03:14:50,451 - INFO - Build script validated
+2025-08-24 03:14:50,452 - INFO - PASS Build Script: PASSED
+2025-08-24 03:14:50,453 - INFO - Dockerfile validated
+2025-08-24 03:14:50,453 - INFO - PASS Docker Configuration: PASSED
+2025-08-24 03:14:50,454 - INFO - Found 13 fuzzer files
+2025-08-24 03:14:50,455 - INFO - PASS Fuzzer Validation: PASSED
+2025-08-24 03:14:51,019 - ERROR - AI references found in project.yaml
+2025-08-24 03:14:51,019 - INFO - FAIL Compliance Check: FAILED
+2025-08-24 03:14:51,234 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:14:51,344 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:14:51,862 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:14:51,882 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:14:51,882 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:14:51,883 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:14:51,884 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:14:51,884 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:14:51,887 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:14:51,911 - INFO - Security check completed
+2025-08-24 03:14:51,913 - INFO - PASS Security Scan: PASSED
+2025-08-24 03:14:51,915 - ERROR - Some pre-deployment checks failed!
+2025-08-24 03:14:51,916 - ERROR -   - Compliance Check failed
+2025-08-24 03:14:51,917 - ERROR - Pre-deployment checks failed. Aborting rollout.
+2025-08-24 03:15:33,448 - INFO - Starting full automated rollout for Gemini CLI OSS-Fuzz integration
+2025-08-24 03:15:33,448 - INFO - Starting pre-deployment checks...
+2025-08-24 03:15:33,473 - ERROR - Project config check failed: while parsing a block mapping
+  in "project.yaml", line 20, column 1
+expected <block end>, but found '-'
+  in "project.yaml", line 158, column 1
+2025-08-24 03:15:33,473 - INFO - FAIL Project Configuration: FAILED
+2025-08-24 03:15:38,327 - INFO - Build script validated
+2025-08-24 03:15:38,327 - INFO - PASS Build Script: PASSED
+2025-08-24 03:15:38,328 - INFO - Dockerfile validated
+2025-08-24 03:15:38,328 - INFO - PASS Docker Configuration: PASSED
+2025-08-24 03:15:38,328 - INFO - Found 13 fuzzer files
+2025-08-24 03:15:38,329 - INFO - PASS Fuzzer Validation: PASSED
+2025-08-24 03:15:38,574 - ERROR - AI references found in .github\workflows\automated-rollout.yml
+2025-08-24 03:15:38,575 - INFO - FAIL Compliance Check: FAILED
+2025-08-24 03:15:38,667 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:15:38,713 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:15:39,304 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:15:39,318 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:15:39,318 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:15:39,319 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:15:39,320 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:15:39,320 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:15:39,322 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:15:39,329 - INFO - Security check completed
+2025-08-24 03:15:39,331 - INFO - PASS Security Scan: PASSED
+2025-08-24 03:15:39,331 - ERROR - Some pre-deployment checks failed!
+2025-08-24 03:15:39,332 - ERROR -   - Project Configuration failed
+2025-08-24 03:15:39,333 - ERROR -   - Compliance Check failed
+2025-08-24 03:15:39,333 - ERROR - Pre-deployment checks failed. Aborting rollout.
+2025-08-24 03:16:29,782 - INFO - Starting full automated rollout for Gemini CLI OSS-Fuzz integration
+2025-08-24 03:16:29,782 - INFO - Starting pre-deployment checks...
+2025-08-24 03:16:29,818 - INFO - Project config validated: gemini_cli
+2025-08-24 03:16:29,819 - INFO - PASS Project Configuration: PASSED
+2025-08-24 03:16:35,478 - INFO - Build script validated
+2025-08-24 03:16:35,479 - INFO - PASS Build Script: PASSED
+2025-08-24 03:16:35,479 - INFO - Dockerfile validated
+2025-08-24 03:16:35,480 - INFO - PASS Docker Configuration: PASSED
+2025-08-24 03:16:35,481 - INFO - Found 13 fuzzer files
+2025-08-24 03:16:35,481 - INFO - PASS Fuzzer Validation: PASSED
+2025-08-24 03:16:36,033 - INFO - Compliance check passed
+2025-08-24 03:16:36,034 - INFO - PASS Compliance Check: PASSED
+2025-08-24 03:16:36,201 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:16:36,301 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:16:36,856 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:16:36,868 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:16:36,869 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:16:36,869 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:16:36,870 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:16:36,871 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:16:36,872 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:16:36,880 - INFO - Security check completed
+2025-08-24 03:16:36,881 - INFO - PASS Security Scan: PASSED
+2025-08-24 03:16:36,881 - INFO - All pre-deployment checks passed!
+2025-08-24 03:16:36,881 - INFO - 🚀 Starting deployment to OSS-Fuzz...
+2025-08-24 03:16:36,904 - ERROR - Deployment failed: [WinError 193] %1 is not a valid Win32 application
+2025-08-24 03:16:36,904 - ERROR - ❌ Deployment failed. Aborting rollout.
+2025-08-24 03:16:46,191 - INFO - Starting pre-deployment checks...
+2025-08-24 03:16:46,225 - INFO - Project config validated: gemini_cli
+2025-08-24 03:16:46,225 - INFO - PASS Project Configuration: PASSED
+2025-08-24 03:16:46,408 - INFO - Build script validated
+2025-08-24 03:16:46,408 - INFO - PASS Build Script: PASSED
+2025-08-24 03:16:46,409 - INFO - Dockerfile validated
+2025-08-24 03:16:46,409 - INFO - PASS Docker Configuration: PASSED
+2025-08-24 03:16:46,411 - INFO - Found 13 fuzzer files
+2025-08-24 03:16:46,411 - INFO - PASS Fuzzer Validation: PASSED
+2025-08-24 03:16:46,753 - INFO - Compliance check passed
+2025-08-24 03:16:46,754 - INFO - PASS Compliance Check: PASSED
+2025-08-24 03:16:46,902 - WARNING - Potential secret found in fuzzers\dictionaries\env.dict
+2025-08-24 03:16:46,985 - WARNING - Potential secret found in fuzzers\node_modules\ini\README.md
+2025-08-24 03:16:47,567 - WARNING - Potential secret found in gofuzz\fuzz\fuzz_cli_parser.go
+2025-08-24 03:16:47,576 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\malicious_env.txt
+2025-08-24 03:16:47,577 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\sample1.txt
+2025-08-24 03:16:47,577 - WARNING - Potential secret found in seeds\FuzzEnvironmentParser\valid_env.txt
+2025-08-24 03:16:47,578 - WARNING - Potential secret found in seeds\FuzzEnvParser\malicious_env.txt
+2025-08-24 03:16:47,578 - WARNING - Potential secret found in seeds\FuzzEnvParser\valid_env.txt
+2025-08-24 03:16:47,579 - WARNING - Potential secret found in seeds\FuzzHTTPRequestParser\post_request.txt
+2025-08-24 03:16:47,592 - INFO - Security check completed
+2025-08-24 03:16:47,595 - INFO - PASS Security Scan: PASSED
+2025-08-24 03:16:47,596 - INFO - All pre-deployment checks passed!

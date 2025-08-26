@@ -1,0 +1,208 @@
+# Copyright 2025 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+################################################################################
+
+# Master Deployment Configuration for OSS-Fuzz Projects
+# Controls deployment order, dependencies, and compliance rules
+
+# Project priorities (lower number = higher priority)
+project_priorities:
+  gemini_cli: 1          # Main Gemini CLI integration
+  gemini-cli: 2          # Secondary Gemini CLI integration  
+  model-transparency: 3  # AI/ML transparency project
+  g-api-python-tasks: 4  # Google API integration
+  bitcoin-core: 5        # Cryptocurrency security
+  curl: 6                # Network security
+  zstd: 7                # Compression security
+  yara: 8                # Malware detection
+  wireshark: 9           # Network analysis
+  vlc: 10                # Media security
+
+# Project dependencies (projects that must be deployed first)
+project_dependencies:
+  model-transparency:
+    - gemini_cli
+    - gemini-cli
+  g-api-python-tasks:
+    - gemini_cli
+  bitcoin-core:
+    - curl
+  wireshark:
+    - curl
+
+# Compliance rules
+compliance:
+  # Required copyright header
+  copyright_header: "Copyright 2025 Google LLC"
+  
+  # Forbidden AI references (will be replaced with pattern-based alternatives)
+  forbidden_ai_references:
+    - "ai-powered"
+    - "ai-assisted" 
+    - "sentient core"
+    - "tower of babel"
+    - "ai model"
+    - "artificial intelligence"
+    
+  # Files to exclude from AI reference checks
+  excluded_files:
+    - "orchestrate-rollout.py"
+    - "rapid_expand.py"
+    - "automated-rollout.yml"
+    - "master-compliance-deploy.py"
+    - "deploy.sh"
+    - "build.sh"
+    - "deployment-config.yaml"
+    
+  # File types that require copyright headers
+  copyright_required_extensions:
+    - ".py"
+    - ".js"
+    - ".ts"
+    - ".go"
+    - ".java"
+    - ".cpp"
+    - ".c"
+    - ".h"
+
+# Build validation rules
+build_validation:
+  # Required files for each project
+  required_files:
+    - "project.yaml"
+    - "Dockerfile"
+    - "build.sh"
+    
+  # Required directories
+  required_directories:
+    - "fuzzers"
+    
+  # Build script must be executable
+  executable_scripts:
+    - "build.sh"
+    - "deploy.sh"
+
+# Deployment settings
+deployment:
+  # Maximum concurrent deployments
+  max_concurrent: 3
+  
+  # Timeout for each deployment (seconds)
+  deployment_timeout: 300
+  
+  # Retry settings
+  max_retries: 3
+  retry_delay: 30
+  
+  # Rollback on failure
+  enable_rollback: true
+  
+  # Health check after deployment
+  health_check_enabled: true
+  health_check_timeout: 60
+
+# Monitoring and alerting
+monitoring:
+  # Enable real-time monitoring
+  enabled: true
+  
+  # Metrics collection
+  collect_metrics: true
+  
+  # Alert thresholds
+  alert_thresholds:
+    deployment_failure_rate: 0.2
+    compliance_failure_rate: 0.1
+    build_failure_rate: 0.15
+    
+  # Notification channels
+  notifications:
+    - type: "log"
+      level: "ERROR"
+    - type: "file"
+      path: "deployment-alerts.log"
+      level: "WARNING"
+
+# Language-specific settings
+language_settings:
+  javascript:
+    sanitizers: ["none"]
+    fuzzing_engines: ["libfuzzer"]
+    coverage_extra_args: |
+      --include=/src/**/*.js
+      --include=/src/**/*.ts
+      --exclude=/src/**/node_modules/**
+      --exclude=/src/**/test/**
+      
+  python:
+    sanitizers: ["address"]
+    fuzzing_engines: ["libfuzzer"]
+    coverage_extra_args: |
+      --include=/src/**/*.py
+      --exclude=/src/**/test/**
+      --exclude=/src/**/__pycache__/**
+      
+  go:
+    sanitizers: ["address"]
+    fuzzing_engines: ["libfuzzer"]
+    coverage_extra_args: |
+      --include=/src/**/*.go
+      --exclude=/src/**/test/**
+      --exclude=/src/**/vendor/**
+      
+  java:
+    sanitizers: ["address"]
+    fuzzing_engines: ["jazzer"]
+    coverage_extra_args: |
+      --include=/src/**/*.java
+      --exclude=/src/**/test/**
+      --exclude=/src/**/target/**
+
+# Security settings
+security:
+  # Enable security scanning
+  security_scanning: true
+  
+  # Check for hardcoded secrets
+  secret_scanning: true
+  
+  # Vulnerability scanning
+  vulnerability_scanning: true
+  
+  # Dependency scanning
+  dependency_scanning: true
+  
+  # License compliance
+  license_compliance: true
+
+# Performance optimization
+performance:
+  # Enable caching
+  enable_caching: true
+  
+  # Cache directory
+  cache_directory: "build_cache"
+  
+  # Parallel processing
+  max_workers: 4
+  
+  # Memory limits
+  memory_limit_mb: 2048
+  
+  # Timeout settings
+  timeout_settings:
+    compliance_check: 60
+    build_validation: 300
+    deployment: 600

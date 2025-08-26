@@ -15,12 +15,24 @@
 ################################################################################
 
 # Dockerfile for Gemini CLI OSS-Fuzz Foundation Setup
-# Phase 1: Basic Go fuzzing environment
+# Phase 1: TypeScript/JavaScript fuzzing environment with Node.js
 
 FROM gcr.io/oss-fuzz-base/base-builder
 
-# Install Go
-RUN install_go.sh
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 20.x (LTS)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
+# Install additional build dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    make \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy project source
 COPY . $SRC/gemini-cli/
@@ -28,8 +40,9 @@ COPY . $SRC/gemini-cli/
 # Set working directory
 WORKDIR $SRC/gemini-cli/
 
-# Verify Go installation
-RUN go version
+# Verify Node.js installation
+RUN node --version
+RUN npm --version
 
 # Print completion message
-RUN echo "Foundation Docker environment ready for Gemini CLI Go fuzzing"
+RUN echo "Foundation Docker environment ready for Gemini CLI TypeScript/JavaScript fuzzing"
