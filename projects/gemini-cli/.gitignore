@@ -4,6 +4,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+<<<<<<< HEAD
 # Build artifacts
 build/
 dist/
@@ -18,10 +19,18 @@ dist/
 *.swp
 *.swo
 *~
+=======
+# Build outputs
+dist/
+build/
+*.tgz
+*.tar.gz
+>>>>>>> pr-13797
 
 # IDE files
 .vscode/
 .idea/
+<<<<<<< HEAD
 *.sublime-*
 
 # OS generated files
@@ -31,11 +40,21 @@ dist/
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+=======
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+>>>>>>> pr-13797
 Thumbs.db
 
 # Logs
 *.log
+<<<<<<< HEAD
 logs/
+=======
+>>>>>>> pr-13797
 
 # Runtime data
 pids
@@ -45,6 +64,7 @@ pids
 
 # Coverage directory used by tools like istanbul
 coverage/
+<<<<<<< HEAD
 *.lcov
 
 # nyc test coverage
@@ -123,3 +143,9 @@ go.work
 *.options
 seeds/
 corpus/
+=======
+
+# Temporary folders
+tmp/
+temp/
+>>>>>>> pr-13797
